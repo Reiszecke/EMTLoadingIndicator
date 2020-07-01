@@ -20,6 +20,7 @@ final public class EMTLoadingIndicator: NSObject {
     private static var progressImages = [UIImage]()
     private static var reloadImage: UIImage?
 
+    private var circleLineGap: CGFloat = 0.9
     private var circleLineWidth: CGFloat = 1
     private var circleLineColor = UIColor(white: 1, alpha: 0.8)
 
@@ -58,6 +59,10 @@ final public class EMTLoadingIndicator: NSObject {
         circleLineColor = color
     }
     
+    public func setLineGap(_ gapSize: CGFloat){ // 1.0: 100%, 0.2: 20%.
+        circleLineGap = gapSize
+    }
+    
     public func prepareImagesForWait() {
         if style == .dot {
             prepareImagesForWaitStyleDot()
@@ -91,7 +96,7 @@ final public class EMTLoadingIndicator: NSObject {
 
                 let degree = CGFloat(-90 + 6 * $0)
                 let startDegree = CGFloat.pi / 180 * degree
-                let endDegree = startDegree + CGFloat.pi * 2 * 0.9
+                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap
                 
                 let path:UIBezierPath = UIBezierPath(arcCenter: center,
                                                      radius: radius,
