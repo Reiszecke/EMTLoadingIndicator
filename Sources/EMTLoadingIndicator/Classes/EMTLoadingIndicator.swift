@@ -92,11 +92,31 @@ final public class EMTLoadingIndicator: NSObject {
             let center = CGPoint(x: imageSize.width / 2, y: imageSize.height / 2)
             let radius = imageSize.width / 2 - circleLineWidth / 2
             
-            let images: [UIImage] = (0...60).map {
+            var driftingLength: CGFloat = 0
+            var driftingSteps : CGFloat = 0.04
+            
+            let images: [UIImage] = (0...59).map {
+                
+                if($0 <= 30) {
+                    driftingLength +=   driftingSteps
+                    driftingSteps += 0.001
+                } else {
+                    driftingLength +=  -driftingSteps
+                    driftingSteps += 0.001
+                }
+                
+                print(driftingLength)
+                
+                print(">>")
 
-                let degree = CGFloat(-90 + 6 * $0)
-                let startDegree = CGFloat.pi / 180 * degree
-                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap
+                //let degree = CGFloat(-90 + 6 * $0)
+                let degree = CGFloat(0 + 6 * $0)
+                let startDegree = (CGFloat.pi / 180 * degree)                   + driftingLength
+                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap    - driftingLength
+                
+              //  print(degree)
+              //  print(startDegree)
+              //  print(endDegree)
                 
                 let path:UIBezierPath = UIBezierPath(arcCenter: center,
                                                      radius: radius,
