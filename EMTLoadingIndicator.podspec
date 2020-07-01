@@ -11,8 +11,8 @@ Pod::Spec.new do |s|
   s.platform     = :watchos, "3.0"
   s.watchos.deployment_target = "3.0"
   s.source       = { :git => "https://github.com/hirokimu/EMTLoadingIndicator.git", :tag => s.version }
-  s.watchos.source_files = "EMTLoadingIndicator/Classes/*.swift"
-  s.watchos.resources = "EMTLoadingIndicator/Resources/*.png"
+  s.watchos.source_files = "Sources/EMTLoadingIndicator/Classes/*.swift"
+  s.watchos.resources = "Sources/EMTLoadingIndicator/Resources/*.png"
   s.frameworks = "WatchKit", "UIKit"
   s.requires_arc = true
 end
