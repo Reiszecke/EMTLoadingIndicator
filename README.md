@@ -9,7 +9,7 @@ Displays loading indicator on Apple watchOS 4+
 
 ## Installation
 Simply add class and resource files to your project, or use CocoaPods or Carthage.
-
+ 
 ### Podfile
 
 ```ruby

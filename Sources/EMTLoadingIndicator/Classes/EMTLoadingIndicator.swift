@@ -20,8 +20,8 @@ final public class EMTLoadingIndicator: NSObject {
     private static var progressImages = [UIImage]()
     private static var reloadImage: UIImage?
 
-    public static var circleLineWidth: CGFloat = 1
-    public static var circleLineColor = UIColor(white: 1, alpha: 0.8)
+    private var circleLineWidth: CGFloat = 1
+    private var circleLineColor = UIColor(white: 1, alpha: 0.8)
 
     public static var progressLineWidthOuter: CGFloat = 1
     public static var progressLineWidthInner: CGFloat = 2
@@ -48,6 +48,14 @@ final public class EMTLoadingIndicator: NSObject {
         image?.setAlpha(0)
         
         super.init()
+    }
+    
+    public func setLineWidth(_ width: CGFloat){
+        circleLineWidth = width;
+    }
+    
+    public func setLineColor(_ color: UIColor){
+        circleLineColor = color
     }
     
     public func prepareImagesForWait() {
@@ -77,7 +85,7 @@ final public class EMTLoadingIndicator: NSObject {
             
             let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: imageSize)
             let center = CGPoint(x: imageSize.width / 2, y: imageSize.height / 2)
-            let radius = imageSize.width / 2 - EMTLoadingIndicator.circleLineWidth / 2
+            let radius = imageSize.width / 2 - circleLineWidth / 2
             
             let images: [UIImage] = (0...60).map {
 
@@ -90,10 +98,10 @@ final public class EMTLoadingIndicator: NSObject {
                                                      startAngle: startDegree,
                                                      endAngle: endDegree,
                                                      clockwise: true)
-                path.lineWidth = EMTLoadingIndicator.circleLineWidth
+                path.lineWidth = circleLineWidth
                 path.lineCapStyle = CGLineCap.square
                 path.lineJoinStyle = CGLineJoin.miter
-                EMTLoadingIndicator.circleLineColor.setStroke()
+                circleLineColor.setStroke()
                 path.stroke()
                 
                 let currentFrameImage = UIGraphicsGetImageFromCurrentImageContext()
