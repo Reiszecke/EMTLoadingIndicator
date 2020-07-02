@@ -110,8 +110,6 @@ final public class EMTLoadingIndicator: NSObject {
             
             var referenceLength: CGFloat = 0
             
-            
-            
             if(moreBubbly) {
                 driftingSteps  = 0.2
             } else {
@@ -154,7 +152,7 @@ final public class EMTLoadingIndicator: NSObject {
                 //let degree = CGFloat(-90 + 6 * $0)
                 let degree = CGFloat(0 + 6 * $0)
                 let startDegree = (CGFloat.pi / 180 * degree)                   + lengthToUse
-                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap    - lengthToUse
+                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap    - lengthToUse*2.2
                 
                 //  print(degree)
                 //  print(startDegree)
