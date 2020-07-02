@@ -1,6 +1,6 @@
 I need the indicator that I've been using for years (thank you hirokimu) but I've switched to SPM and the original project wasn't compatible to that. I also needed to adjust line width on individual objects which I couldn't figure out how to do in the original project. Because I couldn't figure out how to make a proper pull request I wasted some more hours on making the revolutions look a bit more dynamic, now calling it an own project. Except that it still has the same name because I gotta go to bed and forget about this endeavor tomorrow. 
 
-![](loading-indicator.gif)
+![](/animation-examples/loading-indicator-more-bubbly.gif)
 
 My understanding of maths is close to pre-school levels so there are probably better ways to do this (feel free to improve) but my general understanding and a few hours of trying out different numbers made it work out somewhat nicely. Due to the added calculations you're probably better off rendering the images for static usage depending on how your app works.
 
@@ -12,6 +12,7 @@ indicator.setLineColor(UIColor(red: 1.0, green: 1.0, blue:1.0, alpha: 0.8))
 indicator.setLineGap(0.6)
 indicator.disableLavaLamp()
 indicator.enableLavaLamp(moreBubbly: true)
+indicator.setKinetic(energy: 1.1)
 ``` 
 
 It's possible that the pod and cart broke because I moved some folders around. Haven't had the chance to try yet.

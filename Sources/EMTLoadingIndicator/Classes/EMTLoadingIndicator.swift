@@ -26,6 +26,7 @@ final public class EMTLoadingIndicator: NSObject {
     
     private var lavaLamp = false
     private var moreBubbly = false
+    private var bubbleKinetic : CGFloat = 1.1
 
     public static var progressLineWidthOuter: CGFloat = 1
     public static var progressLineWidthInner: CGFloat = 2
@@ -76,6 +77,10 @@ final public class EMTLoadingIndicator: NSObject {
         self.moreBubbly = false
     }
     
+    public func setKinetic(energy: CGFloat) {
+        bubbleKinetic = energy
+    }
+    
     public func prepareImagesForWait() {
         if style == .dot {
             prepareImagesForWaitStyleDot()
@@ -110,13 +115,17 @@ final public class EMTLoadingIndicator: NSObject {
             
             var referenceLength: CGFloat = 0
             
+            var lengthToUse : CGFloat = 0
+            var kineticToUse = bubbleKinetic
+            
             if(moreBubbly) {
                 driftingSteps  = 0.2
+                kineticToUse = kineticToUse * 2
             } else {
                 driftingSteps  = 0.04 //peaks at 1.6349994
             }
             
-            var lengthToUse : CGFloat = 0
+            
             
             let images: [UIImage] = (0...59).map {
                 if(lavaLamp) {
@@ -152,7 +161,7 @@ final public class EMTLoadingIndicator: NSObject {
                 //let degree = CGFloat(-90 + 6 * $0)
                 let degree = CGFloat(0 + 6 * $0)
                 let startDegree = (CGFloat.pi / 180 * degree)                   + lengthToUse
-                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap    - lengthToUse*2.2
+                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap    - lengthToUse*kineticToUse
                 
                 //  print(degree)
                 //  print(startDegree)
