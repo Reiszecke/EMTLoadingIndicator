@@ -23,6 +23,9 @@ final public class EMTLoadingIndicator: NSObject {
     private var circleLineGap: CGFloat = 0.9
     private var circleLineWidth: CGFloat = 1
     private var circleLineColor = UIColor(white: 1, alpha: 0.8)
+    
+    private var lavaLamp = false
+    private var moreBubbly = false
 
     public static var progressLineWidthOuter: CGFloat = 1
     public static var progressLineWidthInner: CGFloat = 2
@@ -63,8 +66,14 @@ final public class EMTLoadingIndicator: NSObject {
         circleLineGap = gapSize
     }
     
-    public func setLavaLamp(bubbly: Bool) {
-        
+    public func enableLavaLamp(moreBubbly: Bool) {
+        lavaLamp = true
+        self.moreBubbly = moreBubbly
+    }
+    
+    public func disableLavaLamp() {
+        lavaLamp = false
+        self.moreBubbly = false
     }
     
     public func prepareImagesForWait() {
@@ -101,23 +110,20 @@ final public class EMTLoadingIndicator: NSObject {
             
             var referenceLength: CGFloat = 0
             
-            let lavaLamp = true
-            let staticCurve = true
             
-            if(staticCurve) {
-                driftingSteps  = 0.04 //peaks at 1.6349994
-            } else {
+            
+            if(moreBubbly) {
                 driftingSteps  = 0.2
+            } else {
+                driftingSteps  = 0.04 //peaks at 1.6349994
             }
             
             var lengthToUse : CGFloat = 0
             
             let images: [UIImage] = (0...59).map {
-                
-                
                 if(lavaLamp) {
                     if($0 <= 30) {
-                        if(staticCurve) {
+                        if(!moreBubbly) {
                             driftingLength +=   driftingSteps
                             driftingSteps += 0.001
                         } else {
@@ -125,7 +131,7 @@ final public class EMTLoadingIndicator: NSObject {
                             driftingLength =  driftingLength + pow(driftingSteps, 1.3)
                         }
                     } else {
-                        if(staticCurve) {
+                        if(!moreBubbly) {
                             driftingLength +=  -driftingSteps
                             driftingSteps += -0.001
                         } else {
@@ -134,7 +140,7 @@ final public class EMTLoadingIndicator: NSObject {
                         }
                     }
                     
-                    if(staticCurve){
+                    if(!moreBubbly){
                         lengthToUse = driftingLength
                     } else {
                         lengthToUse = driftingLength / 7
