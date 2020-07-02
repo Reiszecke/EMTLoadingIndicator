@@ -63,6 +63,10 @@ final public class EMTLoadingIndicator: NSObject {
         circleLineGap = gapSize
     }
     
+    public func setLavaLamp(bubbly: Bool) {
+        
+    }
+    
     public func prepareImagesForWait() {
         if style == .dot {
             prepareImagesForWaitStyleDot()
@@ -95,28 +99,60 @@ final public class EMTLoadingIndicator: NSObject {
             var driftingLength: CGFloat = 0
             var driftingSteps : CGFloat = 0.04
             
+            var referenceLength: CGFloat = 0
+            
+            let lavaLamp = true
+            let staticCurve = true
+            
+            if(staticCurve) {
+                driftingSteps  = 0.04 //peaks at 1.6349994
+            } else {
+                driftingSteps  = 0.2
+            }
+            
+            var lengthToUse : CGFloat = 0
+            
             let images: [UIImage] = (0...59).map {
                 
-                if($0 <= 30) {
-                    driftingLength +=   driftingSteps
-                    driftingSteps += 0.001
-                } else {
-                    driftingLength +=  -driftingSteps
-                    driftingSteps += 0.001
+                
+                if(lavaLamp) {
+                    if($0 <= 30) {
+                        if(staticCurve) {
+                            driftingLength +=   driftingSteps
+                            driftingSteps += 0.001
+                        } else {
+                            driftingSteps += 0.01
+                            driftingLength =  driftingLength + pow(driftingSteps, 1.3)
+                        }
+                    } else {
+                        if(staticCurve) {
+                            driftingLength +=  -driftingSteps
+                            driftingSteps += -0.001
+                        } else {
+                            referenceLength =  referenceLength + pow(driftingSteps, 5.88)
+                            driftingLength = driftingLength - referenceLength
+                        }
+                    }
+                    
+                    if(staticCurve){
+                        lengthToUse = driftingLength
+                    } else {
+                        lengthToUse = driftingLength / 7
+                    }
                 }
                 
                 print(driftingLength)
                 
                 print(">>")
-
+                
                 //let degree = CGFloat(-90 + 6 * $0)
                 let degree = CGFloat(0 + 6 * $0)
-                let startDegree = (CGFloat.pi / 180 * degree)                   + driftingLength
-                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap    - driftingLength
+                let startDegree = (CGFloat.pi / 180 * degree)                   + lengthToUse
+                let endDegree = startDegree + CGFloat.pi * 2 * circleLineGap    - lengthToUse
                 
-              //  print(degree)
-              //  print(startDegree)
-              //  print(endDegree)
+                //  print(degree)
+                //  print(startDegree)
+                //  print(endDegree)
                 
                 let path:UIBezierPath = UIBezierPath(arcCenter: center,
                                                      radius: radius,
@@ -144,19 +180,19 @@ final public class EMTLoadingIndicator: NSObject {
         if EMTLoadingIndicator.progressImages.count == 0 {
             UIGraphicsBeginImageContextWithOptions(imageSize, false, 0)
             let context = UIGraphicsGetCurrentContext()!
-
+            
             let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: imageSize)
             let center = CGPoint(x: imageSize.width / 2, y: imageSize.height / 2)
             let radius = imageSize.width / 2 - EMTLoadingIndicator.progressLineWidthOuter / 2
             let progressRadius = radius - EMTLoadingIndicator.progressLineWidthInner / 2
             
             let images: [UIImage] = (0...60).map {
-
+                
                 let path = UIBezierPath(arcCenter: center,
-                    radius: radius,
-                    startAngle: 0,
-                    endAngle: CGFloat.pi * 2,
-                    clockwise: true)
+                                        radius: radius,
+                                        startAngle: 0,
+                                        endAngle: CGFloat.pi * 2,
+                                        clockwise: true)
                 
                 path.lineWidth = EMTLoadingIndicator.progressLineWidthOuter
                 path.lineCapStyle = CGLineCap.round
