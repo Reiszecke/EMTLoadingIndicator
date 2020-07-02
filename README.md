@@ -12,7 +12,10 @@ indicator.disableLavaLamp()
 indicator.enableLavaLamp(moreBubbly: true)
 ``` 
 
+It's possible that the pod and cart broke because I moved some folders around. Haven't had the chance to try yet.
+
 --
+
 Original readme from https://github.com/hirokimu/EMTLoadingIndicator below, please mind that the minimum watchOS version is now 4.0 because I missed the 3.0 when trying to select it but I doubt there are any watches running watchOS 3.0 anymore anyway  
 
 --
